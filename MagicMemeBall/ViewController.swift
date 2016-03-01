@@ -7,16 +7,21 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController, UIWebViewDelegate {
+    
+    
+    let speechSynthesizer = AVSpeechSynthesizer()
     
     @IBOutlet weak var video: UIWebView!
     
     @IBOutlet weak var shake: UILabel!
     
+    @IBOutlet var eightball: UIView!
     var chosenAnswer = 0
     
-    var AnswerArray = ["Yes", "No", "Maybe", "Try Again", "Not Now", "Most Likely"]
+    var AnswerArray = ["I think that was a yes.", "That was a no.", "Eh, I dunno maybe.", "You should try again, that wasn't a good answer.", "Not now, not at this time", "Hmmmmmm, most likely."]
     
     var MemeUrls = ["58mah_0Y8TU", "Ap4nvdEotqw", "-7jRWvdR5XQ", "wIr1fjjjFQQ", "DrYXGwMZrV4", "_rBe4bm1WFY", "4EoAHdwGBvU", "RFZrzg62Zj0", "umDr0mPuyQc"]
     
@@ -26,6 +31,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     override func viewDidLoad() {
+        //self.view.bringSubviewToFront(shake);
         super.viewDidLoad()
         self.video.alpha = 0
         // Do any additional setup after loading the view, typically from a nib.
@@ -43,11 +49,13 @@ class ViewController: UIViewController, UIWebViewDelegate {
         shakeLabel()
         animation()
         randomAnswer()
-        loadMeme()
-        if(didload!) {
-            showAnswer()
-            didload = false
-        }
+        //loadMeme()
+        //if(didload!) {
+            //showAnswer()
+            //didload = false
+        
+        //}
+        speak()
     }
 
     
@@ -84,6 +92,24 @@ class ViewController: UIViewController, UIWebViewDelegate {
         animation.fromValue = NSValue(CGPoint: CGPointMake(shake.center.x - 10, shake.center.y))
         animation.toValue = NSValue(CGPoint: CGPointMake(shake.center.x + 10, shake.center.y))
         shake.layer.addAnimation(animation, forKey: "position")
+        let animation2 = CABasicAnimation(keyPath: "position")
+        animation2.duration = 0.07
+        animation2.repeatCount = 6
+        animation2.autoreverses = true
+        animation2.fromValue = NSValue(CGPoint: CGPointMake(eightball.center.x - 10, eightball.center.y))
+        animation2.toValue = NSValue(CGPoint: CGPointMake(eightball.center.x + 10, eightball.center.y))
+        eightball.layer.addAnimation(animation, forKey: "position")
     }
+    
+    func speak() {
+        let speechUtterance = AVSpeechUtterance(string: AnswerArray[chosenAnswer])
+        
+        speechUtterance.rate = 0.25
+        speechUtterance.pitchMultiplier = 0.25
+        speechUtterance.volume = 0.75
+        
+        speechSynthesizer.speakUtterance(speechUtterance)
+    }
+    
 }
 
