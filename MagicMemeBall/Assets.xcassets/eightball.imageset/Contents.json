@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "eightball.png",
+      "filename" : "New Piskel.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "eightball-1.png",
+      "filename" : "New Piskel-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "eightball-2.png",
+      "filename" : "New Piskel-2.png",
       "scale" : "3x"
     }
   ],

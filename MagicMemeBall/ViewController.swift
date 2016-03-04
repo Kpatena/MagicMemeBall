@@ -20,21 +20,24 @@ class ViewController: UIViewController, UIWebViewDelegate {
     
     @IBOutlet var eightball: UIView!
     var chosenAnswer = 0
+    var chosenVideo = 0
     
-    var AnswerArray = ["I think that was a yes.", "That was a no.", "Eh, I dunno maybe.", "You should try again, that wasn't a good answer.", "Not now, not at this time", "Hmmmmmm, most likely."]
+    var AnswerArray = ["Yes", "No", "Eh, I dunno maybe.", "You should try again.", "Not now, not at this time", "Most likely.", "Highly unlikely."]
+    
+    var MemeAnswerArray = ["I think that was a yes.", "That was a no.", "Eh, I dunno maybe.", "You should try again, that wasn't a good answer.", "Not now, not at this time", "Most likely."]
     
     var MemeUrls = ["58mah_0Y8TU", "Ap4nvdEotqw", "-7jRWvdR5XQ", "wIr1fjjjFQQ", "DrYXGwMZrV4", "_rBe4bm1WFY", "4EoAHdwGBvU", "RFZrzg62Zj0", "umDr0mPuyQc"]
     
     var didload: Bool!
+    
     override func canBecomeFirstResponder() -> Bool {
         return true
     }
     
     override func viewDidLoad() {
-        //self.view.bringSubviewToFront(shake);
+        self.view.bringSubviewToFront(shake);
         super.viewDidLoad()
         self.video.alpha = 0
-        // Do any additional setup after loading the view, typically from a nib.
         video.mediaPlaybackRequiresUserAction = false
         video.allowsInlineMediaPlayback = true
         didload = false
@@ -55,6 +58,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
             //didload = false
         
         //}
+        UIView.animateWithDuration(1.0, animations:{
+            self.shake.alpha = 1.0
+        })
         speak()
     }
 
@@ -67,11 +73,13 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func randomAnswer() {
-        chosenAnswer = Int(arc4random_uniform(UInt32(MemeUrls.count)))
+        chosenAnswer = Int(arc4random_uniform(UInt32(AnswerArray.count)))
+        chosenVideo = Int(arc4random_uniform(UInt32(MemeUrls.count)))
     }
     
     func animation() {
         self.video.alpha = 0
+        self.shake.alpha = 0
     }
     
     func showAnswer() {
@@ -102,14 +110,54 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func speak() {
+        print(chosenAnswer)
         let speechUtterance = AVSpeechUtterance(string: AnswerArray[chosenAnswer])
-        
-        speechUtterance.rate = 0.25
-        speechUtterance.pitchMultiplier = 0.25
+        shake.text = AnswerArray[chosenAnswer]
+        speechUtterance.rate = 0.4
+        speechUtterance.pitchMultiplier = 1.0
         speechUtterance.volume = 0.75
         
         speechSynthesizer.speakUtterance(speechUtterance)
     }
+    
+    @IBAction func buttonTouched(sender: AnyObject) {
+        
+        var alertController:UIAlertController?
+        alertController = UIAlertController(title: "Add an Answer",
+            message: "Add your own answer!",
+            preferredStyle: .Alert)
+        
+        alertController!.addTextFieldWithConfigurationHandler(
+            {(textField: UITextField!) in
+                textField.placeholder = "Enter here"
+        })
+        
+        let action = UIAlertAction(title: "Submit",
+            style: UIAlertActionStyle.Default,
+            handler: {[weak self]
+                (paramAction:UIAlertAction!) in
+                if let textFields = alertController?.textFields{
+                    let theTextFields = textFields as [UITextField]
+                    let enteredText = theTextFields[0].text
+                    print(enteredText)
+                    self!.AnswerArray.append(enteredText!)
+                }
+            })
+        
+        alertController?.addAction(action)
+        self.presentViewController(alertController!,
+            animated: true,
+            completion: nil)
+    }
+    
+    func turnOffMemes() {
+        
+    }
+    
+    func turnOnMemes() {
+        
+    }
+
     
 }
 
