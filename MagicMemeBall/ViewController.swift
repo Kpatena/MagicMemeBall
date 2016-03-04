@@ -11,6 +11,9 @@ import AVFoundation
 
 class ViewController: UIViewController, UIWebViewDelegate {
     
+    var speechUtterance:AVSpeechUtterance?
+    
+    var memeOn:Bool = false
     
     let speechSynthesizer = AVSpeechSynthesizer()
     
@@ -21,6 +24,7 @@ class ViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet var eightball: UIView!
     var chosenAnswer = 0
     var chosenVideo = 0
+    var chosenAnswer2 = 0
     
     var AnswerArray = ["Yes", "No", "Eh, I dunno maybe.", "You should try again.", "Not now, not at this time", "Most likely.", "Highly unlikely."]
     
@@ -29,6 +33,12 @@ class ViewController: UIViewController, UIWebViewDelegate {
     var MemeUrls = ["58mah_0Y8TU", "Ap4nvdEotqw", "-7jRWvdR5XQ", "wIr1fjjjFQQ", "DrYXGwMZrV4", "_rBe4bm1WFY", "4EoAHdwGBvU", "RFZrzg62Zj0", "umDr0mPuyQc"]
     
     var didload: Bool!
+    
+    @IBOutlet weak var memeSwitch: UISwitch!
+    
+    @IBOutlet weak var answerButton: UIButton!
+    
+    @IBOutlet weak var magicTitle: UILabel!
     
     override func canBecomeFirstResponder() -> Bool {
         return true
@@ -52,40 +62,42 @@ class ViewController: UIViewController, UIWebViewDelegate {
         shakeLabel()
         animation()
         randomAnswer()
-        //loadMeme()
-        //if(didload!) {
-            //showAnswer()
-            //didload = false
-        
-        //}
-        UIView.animateWithDuration(1.0, animations:{
-            self.shake.alpha = 1.0
-        })
-        speak()
+        if(memeOn) {
+            loadMeme()
+            if(didload!) {
+                didload = false
+            }
+            UIView.animateWithDuration(1.0, animations:{
+                self.video.alpha = 1.0
+            })
+            UIView.animateWithDuration(1.0, animations:{
+                self.shake.alpha = 1.0
+            })
+            speak()
+        } else {
+            UIView.animateWithDuration(1.0, animations:{
+                self.shake.alpha = 1.0
+            })
+            speak()
+        }
     }
 
     
     func loadMeme() {
-        let embededHTML = "<html><head><style>body{margin:0px 0px 0px 0px;}</style></head> <body> <div id=\"player\"></div> <script> var tag = document.createElement('script'); tag.src = 'https://www.youtube.com/player_api'; var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); var player; function onYouTubePlayerAPIReady() { player = new YT.Player('player', { width:'0', height:'0', videoId:'\(MemeUrls[chosenAnswer])', events: { 'onReady': onPlayerReady } }); } function onPlayerReady(event) { event.target.playVideo(); } </script> </body> </html>"
+        let embededHTML = "<html><head><style>body{margin:0px 0px 0px 0px;}</style></head> <body> <div id=\"player\"></div> <script> var tag = document.createElement('script'); tag.src = 'https://www.youtube.com/player_api'; var firstScriptTag = document.getElementsByTagName('script')[0]; firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); var player; function onYouTubePlayerAPIReady() { player = new YT.Player('player', { width:'0', height:'0', videoId:'\(MemeUrls[chosenVideo])', events: { 'onReady': onPlayerReady } }); } function onPlayerReady(event) { event.target.playVideo(); } </script> </body> </html>"
         
         video.loadHTMLString(embededHTML, baseURL: NSBundle.mainBundle().bundleURL)
-        //self.video.loadRequest(NSURLRequest(URL: NSURL(string: MemeUrls[chosenAnswer])!))
     }
     
     func randomAnswer() {
         chosenAnswer = Int(arc4random_uniform(UInt32(AnswerArray.count)))
+        chosenAnswer2 = Int(arc4random_uniform(UInt32(AnswerArray.count)))
         chosenVideo = Int(arc4random_uniform(UInt32(MemeUrls.count)))
     }
     
     func animation() {
         self.video.alpha = 0
         self.shake.alpha = 0
-    }
-    
-    func showAnswer() {
-        UIView.animateWithDuration(1.0, animations:{
-            self.video.alpha = 1.0
-        })
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
@@ -110,14 +122,18 @@ class ViewController: UIViewController, UIWebViewDelegate {
     }
     
     func speak() {
-        print(chosenAnswer)
-        let speechUtterance = AVSpeechUtterance(string: AnswerArray[chosenAnswer])
-        shake.text = AnswerArray[chosenAnswer]
-        speechUtterance.rate = 0.4
-        speechUtterance.pitchMultiplier = 1.0
-        speechUtterance.volume = 0.75
+        if(memeOn) {
+            speechUtterance = AVSpeechUtterance(string: MemeAnswerArray[chosenAnswer2])
+            shake.text = MemeAnswerArray[chosenAnswer2]
+        } else {
+            speechUtterance = AVSpeechUtterance(string: AnswerArray[chosenAnswer])
+            shake.text = AnswerArray[chosenAnswer]
+        }
+        speechUtterance!.rate = 0.4
+        speechUtterance!.pitchMultiplier = 1.0
+        speechUtterance!.volume = 0.75
         
-        speechSynthesizer.speakUtterance(speechUtterance)
+        speechSynthesizer.speakUtterance(speechUtterance!)
     }
     
     @IBAction func buttonTouched(sender: AnyObject) {
@@ -150,12 +166,18 @@ class ViewController: UIViewController, UIWebViewDelegate {
             completion: nil)
     }
     
-    func turnOffMemes() {
-        
-    }
-    
-    func turnOnMemes() {
-        
+    @IBAction func buttonClicked(sender: AnyObject)
+    {
+        if memeSwitch.on {
+            magicTitle.text = "Magic Meme Ball"
+            answerButton.alpha = 0
+            memeOn = true
+            
+        } else {
+            magicTitle.text = "Magic 8 Ball"
+            answerButton.alpha = 1
+            memeOn = false
+        }
     }
 
     
