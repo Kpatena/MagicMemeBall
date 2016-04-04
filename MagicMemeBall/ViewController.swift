@@ -92,25 +92,41 @@ class ViewController: UIViewController, UIWebViewDelegate {
         animation()
         randomAnswer()
         if(memeOn) {
-            loadMeme()
-            if(didload!) {
-                didload = false
-            }
-            switch UIDevice.currentDevice().userInterfaceIdiom {
-            case .Phone:
+            if (Reachability.isConnectedToNetwork()) {
                 UIView.animateWithDuration(1.0, animations:{
-                    self.video.alpha = 1.0
+                    self.shake.alpha = 0
                 })
-                break
-            case .Pad:
+                loadMeme()
+                if(didload!) {
+                    didload = false
+                }
+                switch UIDevice.currentDevice().userInterfaceIdiom {
+                case .Phone:
+                    UIView.animateWithDuration(1.0, animations:{
+                        self.video.alpha = 1.0
+                    })
+                    break
+                case .Pad:
+                    UIView.animateWithDuration(1.0, animations:{
+                        self.ipadVideo.alpha = 1.0
+                    })
+                    break
+                case .Unspecified:
+                    break
+                default:
+                    break
+                }
+            } else {
+                speechUtterance = AVSpeechUtterance(string: "No Internet Connection Available")
+                self.shake.text = "No Internet Connection"
                 UIView.animateWithDuration(1.0, animations:{
-                    self.ipadVideo.alpha = 1.0
+                    self.shake.alpha = 1.0
                 })
-                break
-            case .Unspecified:
-                break
-            default:
-                break
+                speechUtterance!.rate = 0.4
+                speechUtterance!.pitchMultiplier = 1.0
+                speechUtterance!.volume = 0.75
+                
+                speechSynthesizer.speakUtterance(speechUtterance!)
             }
         } else {
             UIView.animateWithDuration(1.0, animations:{

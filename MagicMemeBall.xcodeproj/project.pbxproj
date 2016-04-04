@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		570B13EA1CB29F1200830F20 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570B13E91CB29F1200830F20 /* Reachability.swift */; };
 		574BA1061C784F8B007452CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574BA1051C784F8B007452CA /* AppDelegate.swift */; };
 		574BA1081C784F8B007452CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574BA1071C784F8B007452CA /* ViewController.swift */; };
 		574BA10B1C784F8B007452CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 574BA1091C784F8B007452CA /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		570B13E91CB29F1200830F20 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		574BA1021C784F8B007452CA /* MagicMemeBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagicMemeBall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		574BA1051C784F8B007452CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		574BA1071C784F8B007452CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				574BA10C1C784F8B007452CA /* Assets.xcassets */,
 				574BA10E1C784F8B007452CA /* LaunchScreen.storyboard */,
 				574BA1111C784F8B007452CA /* Info.plist */,
+				570B13E91CB29F1200830F20 /* Reachability.swift */,
 			);
 			path = MagicMemeBall;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			files = (
 				574BA1081C784F8B007452CA /* ViewController.swift in Sources */,
 				574BA1061C784F8B007452CA /* AppDelegate.swift in Sources */,
+				570B13EA1CB29F1200830F20 /* Reachability.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,7 +402,7 @@
 		574BA12B1C784F8B007452CA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				INFOPLIST_FILE = MagicMemeBall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BCIT.MagicMemeBall;
@@ -409,7 +413,7 @@
 		574BA12C1C784F8B007452CA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				INFOPLIST_FILE = MagicMemeBall/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = BCIT.MagicMemeBall;
@@ -484,6 +488,7 @@
 				574BA12C1C784F8B007452CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		574BA12D1C784F8B007452CA /* Build configuration list for PBXNativeTarget "MagicMemeBallTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +497,7 @@
 				574BA12F1C784F8B007452CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		574BA1301C784F8B007452CA /* Build configuration list for PBXNativeTarget "MagicMemeBallUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +506,7 @@
 				574BA1321C784F8B007452CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
